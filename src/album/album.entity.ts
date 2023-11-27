@@ -20,8 +20,8 @@ export class AlbumEntity {
   @Column()
   releaseDate: Date;
 
-  @OneToMany(() => TrackEntity, track => track.album)
-  tracks: AlbumEntity[];
+  @OneToMany(() => TrackEntity, (track) => track.album)
+  tracks: TrackEntity[];
 
   @ManyToMany(() => PerformerEntity, (performer) => performer.albums)
   @JoinTable()

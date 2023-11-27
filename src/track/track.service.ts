@@ -8,10 +8,8 @@ import {
   BusinessLogicException,
   BusinessError,
 } from '../shared/errors/business-errors';
-
 @Injectable()
 export class TrackService {
-  AlbumRepository: any;
   constructor(
     @InjectRepository(TrackEntity)
     private readonly TrackRepository: Repository<TrackEntity>,
@@ -35,20 +33,15 @@ export class TrackService {
     return Track;
   }
 
-  async create(albumId: string, track: TrackEntity): Promise<TrackEntity> {
-    const album = await this.AlbumRepository.findOne({
-      where: { id: albumId },
-    });
+  async create(track: TrackEntity): Promise<TrackEntity> {
 
-    if (!album) {
+    if (!track.album) {
       throw new Error('El álbum al que se va a asociar el track no existe.');
     }
 
     if (track.duration <= 0) {
       throw new Error('La duración del track debe ser un número positivo.');
     }
-
-    track.album = album;
 
     return await this.TrackRepository.save(track);
   }
